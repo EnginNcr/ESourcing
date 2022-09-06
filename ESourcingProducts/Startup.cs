@@ -2,6 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ESourcingProducts.Data;
+using ESourcingProducts.Data.interfaces;
+using ESourcingProducts.Repositories;
+using ESourcingProducts.Repositories.Ýnterfaces;
 using ESourcingProducts.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -28,6 +32,9 @@ namespace ESourcingProducts
             services.AddControllersWithViews();
             services.Configure<ProductDataBaseSettings>(Configuration.GetSection(nameof(ProductDataBaseSettings)));
             services.AddSingleton<IProductDataBaseSettings>(sp=>sp.GetRequiredService<IOptions<ProductDataBaseSettings>>().Value);
+            services.AddTransient<IProductContext, ProductContext>();
+            services.AddTransient<IProductRepository, ProductRepository>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
