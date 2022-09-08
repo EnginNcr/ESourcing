@@ -14,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Models;
 
 namespace ESourcingProducts
 {
@@ -34,6 +35,16 @@ namespace ESourcingProducts
             services.AddSingleton<IProductDataBaseSettings>(sp=>sp.GetRequiredService<IOptions<ProductDataBaseSettings>>().Value);
             services.AddTransient<IProductContext, ProductContext>();
             services.AddTransient<IProductRepository, ProductRepository>();
+            #region Swagger Dependencies
+            services.AddSwaggerGen(c =>
+                {
+                    c.SwaggerDoc("v1", new OpenApiInfo
+                    {
+                        Title = "ESourcing.Products",
+                        Version = "v1"
+                    });
+                }); 
+            #endregion
 
         }
 
@@ -43,13 +54,10 @@ namespace ESourcingProducts
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.Json", "ESourcing.Products v1"));
             }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
+            
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -59,9 +67,7 @@ namespace ESourcingProducts
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllers();
             });
         }
     }
