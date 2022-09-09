@@ -1,19 +1,21 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using ESourcing.Products.Repositories.Interfaces;
 using ESourcingProducts.Data.interfaces;
 using ESourcingProducts.Entities;
-using ESourcingProducts.Repositories.İnterfaces;
 using MongoDB.Driver;
 
-namespace ESourcingProducts.Repositories
+namespace ESourcing.Products.Repositories
 {
     public class ProductRepository : IProductRepository
     {
         private readonly IProductContext _context;
+
         public ProductRepository(IProductContext context)
         {
             _context = context;
         }
+
         public async Task Create(Product product)
         {
             await _context.Products.InsertOneAsync(product);
@@ -22,32 +24,31 @@ namespace ESourcingProducts.Repositories
         public async Task<bool> Delete(string id)
         {
             var filter = Builders<Product>.Filter.Eq(m => m.id, id);
-            DeleteResult deleteResult =await _context.Products.DeleteOneAsync(filter);
+            DeleteResult deleteResult = await _context.Products.DeleteOneAsync(filter);
+
             return deleteResult.IsAcknowledged && deleteResult.DeletedCount > 0;
-
         }
 
-        public async Task<Product> GetProduct(string Id)
+        public async Task<Product> GetProduct(string id)
         {
-          return await _context.Products.Find(p=>p.id==Id).FirstOrDefaultAsync();
-
+            return await _context.Products.Find(p => p.id == id).FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<Product>> GetProducts()
-        {
-          return await _context.Products.Find(p=>true).ToListAsync();
-        }
-
-        public async Task<IEnumerable<Product>> GetProductsByCategory(string categoryName)
+        public async Task<IEnumerable<Product>> GetProductByCategory(string categoryName)
         {
             var filter = Builders<Product>.Filter.Eq(p => p.Category, categoryName);
             return await _context.Products.Find(filter).ToListAsync();
         }
 
-        public async Task<IEnumerable<Product>> GetProductsByName(string name)
+        public async Task<IEnumerable<Product>> GetProductByName(string name)
         {
             var filter = Builders<Product>.Filter.ElemMatch(p => p.Name, name);
             return await _context.Products.Find(filter).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Product>> GetProducts()
+        {
+            return await _context.Products.Find(p => true).ToListAsync();
         }
 
         public async Task<bool> Update(Product product)

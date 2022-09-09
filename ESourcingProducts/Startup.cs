@@ -1,15 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using ESourcing.Products.Repositories;
+using ESourcing.Products.Repositories.Interfaces;
 using ESourcingProducts.Data;
 using ESourcingProducts.Data.interfaces;
-using ESourcingProducts.Repositories;
-using ESourcingProducts.Repositories.Ýnterfaces;
 using ESourcingProducts.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -30,22 +25,29 @@ namespace ESourcingProducts
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+
+
+            #region Configuration Dependencies
             services.Configure<ProductDataBaseSettings>(Configuration.GetSection(nameof(ProductDataBaseSettings)));
-            services.AddSingleton<IProductDataBaseSettings>(sp=>sp.GetRequiredService<IOptions<ProductDataBaseSettings>>().Value);
-            services.AddTransient<IProductContext, ProductContext>();
-            services.AddTransient<IProductRepository, ProductRepository>();
-            #region Swagger Dependencies
-            services.AddSwaggerGen(c =>
-                {
-                    c.SwaggerDoc("v1", new OpenApiInfo
-                    {
-                        Title = "ESourcing.Products",
-                        Version = "v1"
-                    });
-                }); 
+            services.AddSingleton<IProductDataBaseSettings>(sp => sp.GetRequiredService<IOptions<ProductDataBaseSettings>>().Value);
             #endregion
 
+            #region Project Dependencies
+            services.AddTransient<IProductContext, ProductContext>();
+            services.AddTransient<IProductRepository, ProductRepository>();
+            #endregion
+
+            #region Swagger Dependencies
+            services.AddControllers();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "ESourcing.Products",
+                    Version = "v1"
+                });
+            });
+            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,11 +57,10 @@ namespace ESourcingProducts
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.Json", "ESourcing.Products v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ESourcing.Products v1"));
             }
-            
+
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
 
             app.UseRouting();
 
@@ -70,5 +71,6 @@ namespace ESourcingProducts
                 endpoints.MapControllers();
             });
         }
+
     }
 }

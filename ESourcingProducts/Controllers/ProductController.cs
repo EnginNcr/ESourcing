@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
+using ESourcing.Products.Repositories.Interfaces;
 using ESourcingProducts.Entities;
-using ESourcingProducts.Repositories.İnterfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace ESourcingProducts.Controllers
 {
-    [Route("api/v1/[controller")]
+    [Route("api/v1/controller")]
     [ApiController]
     public class ProductController : ControllerBase
     {
@@ -26,7 +26,7 @@ namespace ESourcingProducts.Controllers
             var products = await _productRepository.GetProducts();
             return Ok(products);
         }
-        [HttpGet("{id:lenght(24)}", Name = "GetProduct")]
+        [HttpGet("{id:length(24)}", Name = "GetProduct")]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(Product), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<Product>> GetProduct(string id)
