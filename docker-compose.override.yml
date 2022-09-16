@@ -9,12 +9,28 @@ services:
     ports:
        - "27017:27017"
   esourcingproducts:
+    container_name: esourcingproducts
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - "ProductDatabaseSettings:ConnettionStrings-mongodb://sourcingdb:27017"
+    depends_on:
+      - sourcingdb
     ports:
-      - "80"
-      - "443"
+      - "8000:80"
+     
     volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https
+  esourcingsourcing:
+    container_name: esourcingsourcing
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "SourcingDatabaseSettings:ConnettionStrings-mongodb://sourcingdb:27017"
+    depends_on:
+      - sourcingdb
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https/
+    ports:
+      - "8001:80"
+

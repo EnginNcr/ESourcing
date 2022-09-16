@@ -42,7 +42,7 @@ namespace ESourcingSourcing.Reporsitory
 
         public async Task SendBid(Bid bid)
         {
-            _context.Bids.InsertOneAsync(bid);
+            await _context.Bids.InsertOneAsync(bid);
         }
     }
 }
