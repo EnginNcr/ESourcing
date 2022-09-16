@@ -8,29 +8,30 @@ services:
        - ${WEBAPP_STORAGE_HOME}/site:/data/db
     ports:
        - "27017:27017"
-  esourcingproducts:
+  esourcing.products:
     container_name: esourcingproducts
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - "ProductDatabaseSettings:ConnettionStrings-mongodb://sourcingdb:27017"
+      - "ProductDatabaseSettings:ConnectionString=mongodb://sourcingdb:27017"
     depends_on:
-      - sourcingdb
+        - sourcingdb
     ports:
       - "8000:80"
-     
     volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https
-  esourcingsourcing:
+      - ${HOME}/ASP.NET/Https:/root/.aspnet/https:ro
+      - ${HOME}/.microsoft/usersecrets/:/root/.microsoft/usersecrets
+
+  esourcing.sourcing:
     container_name: esourcingsourcing
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - "SourcingDatabaseSettings:ConnettionStrings-mongodb://sourcingdb:27017"
+      - "SourcingDatabaseSettings:ConnectionString=mongodb://sourcingdb:27017"
+      - "EventBus:HostName=rabbitmq"
     depends_on:
       - sourcingdb
+      
     volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https/
+      - ${HOME}/.microsoft/usersecrets/:/root/.microsoft/usersecrets
+      - ${HOME}/.aspnet/https:/root/.aspnet/https/
     ports:
       - "8001:80"
-
