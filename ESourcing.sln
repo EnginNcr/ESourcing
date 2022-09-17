@@ -25,6 +25,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESourcingSourcing", "ESourc
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{E7D95125-D769-4409-9F17-6C6374AE32E6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventBusRabbitMQ", "..\EventBusRabbitMQ\EventBusRabbitMQ.csproj", "{04371528-6D67-4979-AEA2-67ACD7AFB733}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +45,10 @@ Global
 		{E7D95125-D769-4409-9F17-6C6374AE32E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E7D95125-D769-4409-9F17-6C6374AE32E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E7D95125-D769-4409-9F17-6C6374AE32E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04371528-6D67-4979-AEA2-67ACD7AFB733}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04371528-6D67-4979-AEA2-67ACD7AFB733}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04371528-6D67-4979-AEA2-67ACD7AFB733}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04371528-6D67-4979-AEA2-67ACD7AFB733}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -57,6 +63,7 @@ Global
 		{6E106B7E-4642-459C-954E-1A9B8D329238} = {82B007E0-29A3-4419-B024-ACBAC40BF77F}
 		{F0DC7180-D0CB-444C-91D7-E7A33053526F} = {82B007E0-29A3-4419-B024-ACBAC40BF77F}
 		{2FB2BE72-FE32-4964-9F1B-6724BCCA31A5} = {F0DC7180-D0CB-444C-91D7-E7A33053526F}
+		{04371528-6D67-4979-AEA2-67ACD7AFB733} = {6E106B7E-4642-459C-954E-1A9B8D329238}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8CAE5F4F-25B6-4B9B-9C0D-CBE05A2D6416}
