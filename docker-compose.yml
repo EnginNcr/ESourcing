@@ -4,15 +4,17 @@ services:
   sourcingdb:
     image: mongo
 
-  esourcingproducts:
+  esourcing.product:
     image: ${DOCKER_REGISTRY-}esourcingproducts
     build:
-      context: .
-      dockerfile: ESourcingProducts/Dockerfile
+        context: .
+        dockerfile: ESourcingProducts/Dockerfile
 
-  esourcingsourcing:
+  esourcing.sourcing:
     image: ${DOCKER_REGISTRY-}esourcingsourcing
     build:
       context: .
       dockerfile: ESourcingSourcing/Dockerfile
+
+ 
 
